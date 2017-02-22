@@ -2,6 +2,7 @@ package br.senai.sp.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
@@ -61,6 +62,11 @@ public class TarefaController {
 		daoTarefa.excluir(id);
 		return ResponseEntity.noContent().build();
 
+	}
+	
+	@RequestMapping(value = "/tarefa/abertas", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<Tarefa> listarAbertas() {
+		return daoTarefa.listar().stream().filter(tarefa -> !tarefa.isRealizada()).collect(Collectors.toList());
 	}
 	
 	
